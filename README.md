@@ -73,7 +73,10 @@ python train_clas.py --dataset imdb --desc imdb --submit --analysis --data_dir d
 #### Added experiments on AG News dataset
 The SoTA on the AG News dataset is 94.9% ("ULMFit"). This model can be applied to the AG News dataset, which is a multi-class ontology  task, and with minimal modifications to the structure, we can achieve 94.6% accuracy after 2 epochs. This experiment was run with a batch size of 8 on a Tesla P100 GPU, and each epoch took around around 45 minutes. 
 
+Note that this is a multi-class problem, so we create an additional argument specifying the number of classes we want. 
+
 ```bash
 python -m spacy download en
-python train_news.py --dataset agnews --desc agnews --submit --analysis --data_dir data/agnews --n_iter 2 --n_batch 8 --n_valid 24000
+python train_news.py --dataset agnews --desc agnews --submit --analysis --data_dir data/agnews --n_iter 2 
+--n_batch 8 --n_valid 24000 --n_clas 4
 ```

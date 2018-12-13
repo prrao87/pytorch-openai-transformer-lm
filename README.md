@@ -61,3 +61,19 @@ The single run test accuracy of this PyTorch version is 85.84%, while the author
 The authors implementations uses 8 GPU and can thus accomodate a batch of 64 samples while the present implementation is single GPU and is in consequence limited to 20 instances on a K80 for memory reasons. In our test, increasing the batch size from 8 to 20 samples increased the test accuracy by 2.5 points. A better accuracy may be obtained by using a multi-GPU setting (not tried yet).
 
 The previous SOTA on the ROCStories dataset is 77.6% ("Hidden Coherence Model" of Chaturvedi et al. published in "Story Comprehension for Predicting What Happens Next" EMNLP 2017, which is a very nice paper too!)
+
+#### Added experiments on IMDb dataset
+The SoTA on the IMDb dataset is 95.4% ("ULMFit"). This model can be applied to the IMDb dataset, which is a binary classification task, and with settings close to the default, we can achieve 94.2% accuracy after 3 epochs. This experiment was run with a batch size of 4 on a Tesla P100 GPU, and each epoch took around half an hour. 
+
+```bash
+python -m spacy download en
+python train_clas.py --dataset imdb --desc imdb --submit --analysis --data_dir data/IMDb --n_iter 3 --n_batch 4 --n_valid 5000
+```
+
+#### Added experiments on AG News dataset
+The SoTA on the AG News dataset is 94.9% ("ULMFit"). This model can be applied to the AG News dataset, which is a multi-class ontology  task, and with settings close to the default, we can achieve 94.6% accuracy after 2 epochs! This experiment was run with a batch size of 8 on a Tesla P100 GPU, and each epoch took around around 45 minutes. 
+
+```bash
+python -m spacy download en
+python train_clas.py --dataset agnews --desc agnews --submit --analysis --data_dir data/agnews --n_iter 2 --n_batch 8 --n_valid 24000
+```

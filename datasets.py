@@ -142,3 +142,34 @@ if __name__ == "__main__":
     print(trY[:2])
     print(list(set(trY)))
 
+def _sts(path):
+    with open(path, encoding='utf_8') as f:
+        f = csv.reader(f, delimiter='\t')
+        st1 = []
+        st2 = []
+        y = []
+        for i, line in enumerate(tqdm(list(f), ncols=80, leave=False)):
+            if i > 0:
+                try:
+                    s1 = line[5]
+                    s2 = line[6]
+                    st1.append(s1)
+                    st2.append(s2)
+                    y.append(float(line[4]))
+                except IndexError:
+                    print("bad line: {}".format(line))
+        return st1, st2, y
+
+def sts(data_dir):
+    trX1, trX2, trY = _sts(os.path.join(data_dir, 'sts-train.csv'))
+    trY = np.asarray(trY, dtype=np.float32).reshape(-1, 1)
+
+    vaX1, vaX2, vaY = _sts(os.path.join(data_dir, 'sts-dev.csv'))
+    vaY = np.asarray(vaY, dtype=np.float32)
+    vaY = np.asarray(trY, dtype=np.float32).reshape(-1, 1)
+
+    teX1, teX2, _ = _sts(os.path.join(data_dir, 'sts-test.csv'))
+
+    return (trX1, trX2, trY), (vaX1, vaX2, vaY), (teX1, teX2)
+
+
